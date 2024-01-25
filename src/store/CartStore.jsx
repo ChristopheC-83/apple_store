@@ -27,4 +27,36 @@ export const useCartStore = create((set) => ({
       }
     });
   },
+
+  updateQuantity: (productName, quantity) => {
+    set((state) => {
+      const itemIndex = state.items.findIndex(
+        (ItemInItems) => ItemInItems.productName === productName
+      );
+
+      if (itemIndex !== -1) {
+        if (quantity > 10) {
+          alert("Vous ne pouvez pas commander plus de 10 articles identiques");
+          return state;
+        } else {
+          const newItems = [...state.items];
+          newItems[itemIndex].quantity = Number(quantity);
+          return { ...state, items: newItems };
+        }
+      }
+    });
+  },
+
+  deleteItem: (productName) => {
+    set((state) => {
+      const itemIndex = state.items.findIndex(
+        (ItemInItems) => ItemInItems.productName === productName
+      );
+      if (itemIndex !== -1) {
+        const newItems = [...state.items];
+        newItems.splice(itemIndex, 1);
+        return { ...state, items: newItems };
+      }
+    });
+  },
 }));
